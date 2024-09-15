@@ -13,3 +13,8 @@ Then add the custom (non-core) ESPHome component for running network pings [writ
 
 Possibly replace the single color LED with an RGB one so it can blink a more clear "all clear" state 
 
+## Project goals
+- Have an "all-clear" state which is visually differnet from either powered off, no network connection, and ERROR state. 
+- Monitor 2-5 DNS names, falling into ERROR state if one fails
+- Enter ERROR state when there is no network connection
+- Add 1-wire support with both an onboard and an offboard (externally-wired) probe to monitor rack health
