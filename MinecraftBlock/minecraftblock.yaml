@@ -1,0 +1,87 @@
+substitutions:
+  name: esp-minecraftblock
+  friendly_name: Sparks Minecraft Block
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  min_version: 2024.6.0
+  name_add_mac_suffix: false
+  project:
+    name: esphome.web
+    version: dev
+
+esp8266:
+  board: esp01_1m
+
+# Enable logging
+logger:
+  level: DEBUG
+
+# Enable Home Assistant API
+api:
+
+# Allow Over-The-Air updates
+ota:
+- platform: esphome
+
+# Allow provisioning Wi-Fi via serial
+improv_serial:
+
+wifi:
+  # Set up a wifi access point
+  ap: {}
+
+# In combination with the `ap` this allows the user
+# to provision wifi credentials to the device via WiFi AP.
+captive_portal:
+
+dashboard_import:
+  package_import_url: github://esphome/example-configs/esphome-web/esp8266.yaml@main
+  import_full_config: true
+
+# To have a "next url" for improv serial
+web_server:
+
+# 4x LEDs on pin IO0
+output:
+  - platform: esp8266_pwm
+    pin: GPIO0
+    frequency: 1000 Hz
+    id: pwm_output
+    inverted: true
+
+light:
+  - platform: monochromatic
+    name: "Ore Lights"
+    id: ore_lights
+    output: pwm_output
+    effects:
+      - flicker:
+          name: "Flicker"
+          alpha: 95%
+          intensity: 5%
+      - pulse:
+          name: "Slow Pulse"
+          # transition_length: 1s      # defaults to 1s
+          update_interval: 2s
+
+# Shock sensor on GPIO2
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO2
+      mode: INPUT_PULLUP
+    name: "Block Shocked"
+    device_class: vibration
+    filters:
+      - delayed_on: 10ms
+      - delayed_off: 10ms
+    on_press:
+      then:
+        - light.turn_on: 
+            id: ore_lights
+            effect: "Flicker"
+        - delay: 3s
+        - light.turn_off:
+            id: ore_lights
