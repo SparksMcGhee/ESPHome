@@ -1,2 +1,3 @@
 # ESPHome
-ESPHome YAML files and other assorted detritus
+ESPHome project files and other assorted detritus 
+

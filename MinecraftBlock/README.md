@@ -1,7 +1,11 @@
 # Minecraft Block Project
 Bought a ThinkGeek Minecraft Ore block at a swap meet for literally 1 dollar.
 
+![BlockOutside](./minecraft_block_outside.png)
+
 Figured it would be cool to have real redstone automation in my home and wanted to mess with ESPHome anyway, so I bodged in some random parts I had around the house. 
+
+![BlockInside](./minecraft_block_inside.png)
 
 #### Block I modded (didn't purchase here)
 https://www.amazon.com/ThinkGeek-Minecraft-Light-Up-Redstone-ore-508-l/dp/B078V4B8WZ
@@ -31,7 +35,7 @@ The below YAML block added to the vibration sensor tells the ESPHome to turn on 
 ```
 ...
     on_press:
-      then:
+      then:flicker the 
         - light.turn_on: 
             id: ore_lights
             effect: "Flicker"
